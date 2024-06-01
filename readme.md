@@ -1,5 +1,5 @@
 # Chatify
-## it is a real-time full stack Chat App made by me, comprised of the following tech-stack: 
+## It is a real-time full stack Chat App made by me, comprised of the following tech-stack: 
 
 - MongoDB
 - Expressjs
