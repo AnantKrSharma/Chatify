@@ -8,13 +8,6 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 
-app.get('/', (req, res)=>{
-    res.json({
-        msg:"FUckER"
-    });
-})
-
-
 app.use('/api/auth', authRoutes)
 
 
