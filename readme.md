@@ -19,4 +19,5 @@
 - 🚀 Online user status (Socket.io and React Context)
 - 👌 Global state management with Zustand
 - 🐞 Error handling both on the server and on the client
+- 🔏 Added security through Password hashing 
 - ⏳ And much more!
