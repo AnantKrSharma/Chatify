@@ -54,17 +54,53 @@ export async function signup(req, res){
 }
 
 
-
 export async function login(req, res){
-    res.json({
-        msg: "YO LOGIN ?" 
-    })
+    try{
+        const {username, password} = req.body;
+
+        const user = await User.findOne({username})
+
+        // To verify a password using bcryptjs with the user input password, you need to compare the hashed password stored in your database with the plaintext password provided by the user. The bcryptjs library provides the compare method for this purpose.
+        const isPasswordCorrect = await bcryptjs.compare(password, user?.password || "")
+        
+        if(!user || !isPasswordCorrect){
+            return res.status(400).json({
+                errors: "Invalid username or password / Error while logging in."
+            })
+        }
+
+        generateTokenAndSetCookie(user._id, res);
+
+        res.status(200).json({
+            _id: user._id,
+            fullName: user.fullName,
+            username: user.username,
+            profilePic: user.profilePic
+        })
+    }
+    catch(error){
+        console.log("Error in login controller - ", error.message);
+
+        res.status(500).json({
+            errors: "Error occured while logging in."
+        })
+    }
 }
 
 
-
 export async function logout(req, res){
-    res.json({
-        msg: "YO LOGOUT ?"
-    })
+    try{
+        res.cookie('jwt', '', {maxAge: 0})
+
+        res.status(200).json({
+            msg: "Logged out succesfully."
+        })
+    }
+    catch(error){
+        console.log("Error in logout controller - ", error.message);
+
+        return res.status(400).json({
+            errors: "Error while logging out."
+        })
+    }
 }
