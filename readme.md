@@ -7,10 +7,11 @@
 - Expressjs
 - Reactjs
 - Nodejs
-- JsonWebToken (JWT)
+- JsonWebToken
 - TailwindCSS
 - Socket.io
-- bcryptjs
+- bcryptjs (Hashing)
+- cookie-parser (for Cookie-Authentication)
 
 
 ## Features: 
