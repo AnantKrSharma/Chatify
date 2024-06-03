@@ -1,9 +1,20 @@
 
 import jwt from 'jsonwebtoken'
-import cookieParser from 'cookie-parser'
 
-export default async function protectRoute(req, res, next){
+export function protectRoute(req, res, next){
 
-    const token = req.cookies['username']
-    console.log(token);
+    try{ 
+        const token = req.cookies['jwt']
+
+        const verify = jwt.sign(token, process.env.JWT_SECRET)
+
+
+    }
+    catch(error){
+        console.log("Error in the protectRoute middlware - ", error.message);
+
+        res.status(500).json({
+            errors: "Error while authenticating the user."
+        })
+    }
 }
