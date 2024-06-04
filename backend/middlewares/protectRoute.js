@@ -1,14 +1,36 @@
 
 import jwt from 'jsonwebtoken'
+import User from '../models/user.model.js'
 
-export function protectRoute(req, res, next){
+async function protectRoute(req, res, next){
 
     try{ 
-        const token = req.cookies['jwt']
+        const token = req.cookies.jwt
+        if(!token){
+            return res.status(401).json({
+                msg: "Unauthorized"
+            })
+        }
 
-        const verify = jwt.sign(token, process.env.JWT_SECRET)
+        const verified = jwt.verify(token, process.env.JWT_SECRET)
 
+        if(!verified){
+            return res.status(401).json({
+                msg: "Unauthorized"
+            })
+        }
 
+        const user = await User.findById(verified.userId).select('-password');
+        
+        if(!user){
+            return res.status(404).json({
+                msg: "User not found"
+            })
+        }
+
+        req.user = user;
+
+        next();
     }
     catch(error){
         console.log("Error in the protectRoute middlware - ", error.message);
@@ -18,3 +40,6 @@ export function protectRoute(req, res, next){
         })
     }
 }
+
+
+export default protectRoute;
