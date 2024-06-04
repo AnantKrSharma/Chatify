@@ -25,6 +25,8 @@ export async function sendMessage(req, res){
             message
         })
 
+        // WE WILL ADD SOCKET.IO HERE
+
         if(newMessage){
            await Conversation.updateOne({_id: conversation._id}, 
             {
